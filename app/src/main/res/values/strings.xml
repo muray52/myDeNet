@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">myDeNet</string>
+    <string name="button_root">Переход в ROOT</string>
+    <string name="button_add_child">Добавить child</string>
+</resources>
