@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,8 +41,7 @@ class NodesFragment : Fragment() {
     private fun setupObservers() {
         viewModel.currentNode.observe(viewLifecycleOwner) {
             binding.tvNodeName.text = it.hash
-            childAdapter.submitList(it.childList)
-            childAdapter.notifyDataSetChanged()
+            childAdapter.submitList(it.childList.toList())
         }
     }
 
@@ -53,18 +53,46 @@ class NodesFragment : Fragment() {
             layoutManager = layoutManagerRv
         }
 
-        setupOnClickListener()
-        setupOnLongClickListener()
+        setupOnClickButtonListener()
+        setupOnItemClickListener()
     }
 
-
-    private fun setupOnClickListener() {
-        childAdapter.onChildItemClickListener = {
-            //TODO("open new Node")
+    private fun setupOnClickButtonListener() {
+        binding.buttonRoot.setOnClickListener {
+            viewModel.goToRoot()
+        }
+        binding.buttonAddChild.setOnClickListener {
+            viewModel.addChild()
+            viewModel.getLastChildPosition()?.let {
+                binding.rvChilds.smoothScrollToPosition(it)
+            }
+        }
+        binding.buttonParent.setOnClickListener {
+            viewModel.goToParent().also {
+                if (!it) {
+                    Toast.makeText(context, "Вы уже в Root", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        binding.buttonSaveTree.setOnClickListener {
+            viewModel.saveTree()
         }
     }
 
-    private fun setupOnLongClickListener() {
-//        TODO("delete Node")
+    private fun setupOnItemClickListener() {
+        setupOnChildItemClickListener()
+        setupOnChildItemLongClickListener()
+    }
+
+    private fun setupOnChildItemClickListener() {
+        childAdapter.onChildItemClickListener = {
+            viewModel.goToChild(it)
+        }
+    }
+
+    private fun setupOnChildItemLongClickListener() {
+        childAdapter.onChildItemLongClickListener = {
+            viewModel.removeChild(it)
+        }
     }
 }
