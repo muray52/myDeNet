@@ -23,7 +23,6 @@ class SharedPref(
         with(sharedPref.edit()) {
             putString(SP_TREE, resString).apply()
         }
-        loadTree()
     }
 
     private fun deleteTree() {
@@ -37,14 +36,14 @@ class SharedPref(
         } else {
             val rootNode = Gson().fromJson(json, NodeModel::class.java)
             updateParent(rootNode)
-            return rootNode
+            rootNode
         }
     }
 
     private fun updateParent(node: NodeModel) {
         for (child in node.childList.filterNotNull()) {
             child.parent = node
-            child.also { updateParent(it) }
+            updateParent(child)
         }
     }
 

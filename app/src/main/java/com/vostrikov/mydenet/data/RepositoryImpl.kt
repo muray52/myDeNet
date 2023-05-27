@@ -37,14 +37,18 @@ class RepositoryImpl(application: Application) : Repository {
 
     }
 
-    override fun loadTree(): NodeModel =
-        sharedPref.loadTree()
-            ?: NodeModel(
-                0,
-                null,
-                mutableListOf(),
-                ROOT
-            )
+    override fun loadTree(): NodeModel {
+        val tree = sharedPref.loadTree()
+        return if (tree != null) {
+            Log.d(TREE_STATUS, "tree was loaded from SharedPrefs")
+            tree
+        } else NodeModel(
+            0,
+            null,
+            mutableListOf(),
+            ROOT
+        )
+    }
 
     private fun getMaxId(node: NodeModel): Int {
         var maxId = 1
