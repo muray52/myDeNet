@@ -53,7 +53,7 @@ class NodesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun removeChild(child: NodeModel) {
         _currentNode.value?.let {
-            removeChildUseCase.invoke(it,child)
+            removeChildUseCase.invoke(it, child)
             _currentNode.value = it
         }
     }
