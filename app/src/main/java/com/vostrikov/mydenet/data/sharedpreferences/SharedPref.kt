@@ -42,15 +42,11 @@ class SharedPref(
     }
 
     private fun updateParent(node: NodeModel) {
-//        if (node == null) {
-//            return
-//        }
         for (child in node.childList.filterNotNull()) {
             child.parent = node
             child.also { updateParent(it) }
         }
     }
-
 
     companion object {
         private const val SP_TREE = "KEY_TREE"

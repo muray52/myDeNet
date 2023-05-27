@@ -44,11 +44,13 @@ class NodesViewModel(application: Application) : AndroidViewModel(application) {
         _currentNode.value = node
     }
 
-    fun goToParent() {
-        _currentNode.value?.parent?.let {
-            _currentNode.value = it
+    fun goToParent(): Boolean {
+        return if (currentNode.value?.parent == null) {
+            false
+        } else {
+            _currentNode.value = currentNode.value?.parent ?: root
+            true
         }
-//        TODO("toast if null")
     }
 
     fun removeChild(child: NodeModel) {
@@ -60,6 +62,10 @@ class NodesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun saveTree() {
         saveTreeUseCase.invoke()
+    }
+
+    fun getLastChildPosition(): Int? {
+        return currentNode.value?.childList?.lastIndex
     }
 
 }

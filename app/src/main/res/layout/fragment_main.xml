@@ -32,14 +32,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_childs"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/flow_buttons"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/tv_node_name" />
 
     <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/actions"
-        android:layout_width="0dp"
+        android:id="@+id/flow_buttons"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
@@ -49,10 +50,11 @@
         app:flow_horizontalStyle="packed"
         app:flow_verticalStyle="packed"
         app:flow_wrapMode="aligned"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
-        app:layout_constraintWidth_default="wrap" />
+        app:layout_constraintTop_toBottomOf="@id/rv_childs" />
 
     <Button
         android:id="@+id/button_root"
