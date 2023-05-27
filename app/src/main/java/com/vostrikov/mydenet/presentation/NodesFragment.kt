@@ -66,6 +66,9 @@ class NodesFragment : Fragment() {
         binding.buttonParent.setOnClickListener {
             viewModel.goToParent()
         }
+        binding.buttonSaveTree.setOnClickListener {
+            viewModel.saveTree()
+        }
     }
 
     private fun setupOnItemClickListener() {

@@ -1,20 +1,25 @@
 package com.vostrikov.mydenet.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vostrikov.mydenet.data.RepositoryImpl
 import com.vostrikov.mydenet.data.model.NodeModel
+import com.vostrikov.mydenet.domain.usecases.AddChildUseCase
+import com.vostrikov.mydenet.domain.usecases.GetRootNodeUseCase
+import com.vostrikov.mydenet.domain.usecases.RemoveChildUseCase
 import com.vostrikov.mydenet.domain.usecases.SaveTreeUseCase
 
 class NodesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = RepositoryImpl(application)
     private val saveTreeUseCase = SaveTreeUseCase(repository)
+    private val getRootNodeUseCase = GetRootNodeUseCase(repository)
+    private val removeChildUseCase = RemoveChildUseCase(repository)
+    private val addChildUseCase = AddChildUseCase(repository)
 
-    private val root = repository.getRoot()
+    private val root = getRootNodeUseCase.invoke()
     private val _currentNode = MutableLiveData<NodeModel>()
     val currentNode: LiveData<NodeModel>
         get() = _currentNode
@@ -25,16 +30,14 @@ class NodesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addChild() {
-        _currentNode.value?.apply {
-            repository.addChild(this)
-            _currentNode.value = this
+        _currentNode.value?.let {
+            addChildUseCase(it)
+            _currentNode.value = it
         }
-        Log.d("NODE_STATE", "childList size = ${currentNode.value?.childList?.size}")
     }
 
     fun goToRoot() {
-//        _currentNode.value = root
-        saveTreeUseCase.invoke()
+        _currentNode.value = root
     }
 
     fun goToChild(node: NodeModel) {
@@ -48,11 +51,15 @@ class NodesViewModel(application: Application) : AndroidViewModel(application) {
 //        TODO("toast if null")
     }
 
-    fun removeChild(node: NodeModel) {
-        _currentNode.value?.apply {
-            this.childList.remove(node)
-            _currentNode.value = this
+    fun removeChild(child: NodeModel) {
+        _currentNode.value?.let {
+            removeChildUseCase.invoke(it,child)
+            _currentNode.value = it
         }
+    }
+
+    fun saveTree() {
+        saveTreeUseCase.invoke()
     }
 
 }
