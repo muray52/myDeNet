@@ -1,7 +1,11 @@
 package com.vostrikov.mydenet.data.model
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 data class NodeModel(
-    val parent: NodeModel?,
-    val childList: MutableList<NodeModel?>,
-    val hash: String,
+    @Expose(serialize = false)
+    @SerializedName("parent") val parent: NodeModel?,
+    @SerializedName("childList") val childList: MutableList<NodeModel?>,
+    @SerializedName("hash") val hash: String,
 )

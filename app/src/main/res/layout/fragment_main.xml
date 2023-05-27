@@ -1,23 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
 
     <TextView
         android:id="@+id/tv_node_name"
-        android:text="node"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/rv_childs"/>
+        android:layout_marginTop="100dp"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/rv_childs"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_childs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="?attr/actionBarSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@id/tv_node_name" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:constraint_referenced_ids="button_root,button_parent,button_add_child"
+        app:flow_horizontalBias="0"
+        app:flow_horizontalGap="8dp"
+        app:flow_horizontalStyle="packed"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="chain2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintWidth_default="wrap" />
+
+    <Button
+        android:id="@+id/button_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/button_root"
+        app:layout_constraintEnd_toStartOf="@id/button_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_node_name"/>
+        app:layout_constraintTop_toBottomOf="@id/rv_childs" />
+
+    <Button
+        android:id="@+id/button_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/button_parent"
+        app:layout_constraintEnd_toStartOf="@id/button_add_child"
+        app:layout_constraintStart_toEndOf="@id/button_root"
+        app:layout_constraintTop_toBottomOf="@id/rv_childs" />
+
+    <Button
+        android:id="@+id/button_add_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/button_add_child"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_childs" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

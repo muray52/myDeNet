@@ -20,19 +20,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[NodesViewModel::class.java]
-
-        onClickButtonListener()
         launchFragment()
     }
 
-    private fun onClickButtonListener() {
-        binding.buttonRoot.setOnClickListener {
-            viewModel.goToRoot()
-        }
-        binding.buttonAddChild.setOnClickListener {
-            viewModel.addChild()
-        }
-    }
 
     private fun launchFragment() {
         val fragment = NodesFragment()

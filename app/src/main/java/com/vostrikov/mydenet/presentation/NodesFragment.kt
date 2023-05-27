@@ -40,8 +40,7 @@ class NodesFragment : Fragment() {
     private fun setupObservers() {
         viewModel.currentNode.observe(viewLifecycleOwner) {
             binding.tvNodeName.text = it.hash
-            childAdapter.submitList(it.childList)
-            childAdapter.notifyDataSetChanged()
+            childAdapter.submitList(it.childList.toList())
         }
     }
 
@@ -53,18 +52,36 @@ class NodesFragment : Fragment() {
             layoutManager = layoutManagerRv
         }
 
-        setupOnClickListener()
-        setupOnLongClickListener()
+        setupOnClickButtonListener()
+        setupOnItemClickListener()
     }
 
-
-    private fun setupOnClickListener() {
-        childAdapter.onChildItemClickListener = {
-            //TODO("open new Node")
+    private fun setupOnClickButtonListener() {
+        binding.buttonRoot.setOnClickListener {
+            viewModel.goToRoot()
+        }
+        binding.buttonAddChild.setOnClickListener {
+            viewModel.addChild()
+        }
+        binding.buttonParent.setOnClickListener {
+            viewModel.goToParent()
         }
     }
 
-    private fun setupOnLongClickListener() {
-//        TODO("delete Node")
+    private fun setupOnItemClickListener() {
+        setupOnChildItemClickListener()
+        setupOnChildItemLongClickListener()
+    }
+
+    private fun setupOnChildItemClickListener() {
+        childAdapter.onChildItemClickListener = {
+            viewModel.goToChild(it)
+        }
+    }
+
+    private fun setupOnChildItemLongClickListener() {
+        childAdapter.onChildItemLongClickListener = {
+            viewModel.removeChild(it)
+        }
     }
 }
